@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.composearchitecture.screen.CompositionLocalScreen
 import com.example.composearchitecture.screen.MainScreen
+import com.example.composearchitecture.screen.ThemeScreen
 import com.example.composearchitecture.screen.ViewModelScreen
 
 @Composable
@@ -31,6 +32,11 @@ fun NavGraph(
             route = Screen.CompositionLocal.route
         ){
             CompositionLocalScreen(navController)
+        }
+        composable(
+            route = Screen.Theme.route
+        ){
+            ThemeScreen(navController)
         }
     }
 } // End of setUpNavGraph
