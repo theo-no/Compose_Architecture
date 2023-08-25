@@ -66,4 +66,16 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    //coil
+    implementation("io.coil-kt:coil:2.2.2")
+    implementation("io.coil-kt:coil-compose:2.2.2")
+
+    //navigation
+    var nav_version = "2.5.3"
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+
+    //constraintLayout
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+
 }
