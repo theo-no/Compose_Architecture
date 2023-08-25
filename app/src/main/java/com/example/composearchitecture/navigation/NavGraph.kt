@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.composearchitecture.screen.CompositionLocalScreen
 import com.example.composearchitecture.screen.MainScreen
 import com.example.composearchitecture.screen.ViewModelScreen
 
@@ -25,6 +26,11 @@ fun NavGraph(
             route = Screen.ViewModel.route
         ){
             ViewModelScreen(navController)
+        }
+        composable(
+            route = Screen.CompositionLocal.route
+        ){
+            CompositionLocalScreen(navController)
         }
     }
 } // End of setUpNavGraph
