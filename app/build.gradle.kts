@@ -80,4 +80,7 @@ dependencies {
 
     //viewmodel
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+
+    //livedata
+    implementation("androidx.compose.runtime:runtime-livedata:1.5.0")
 }

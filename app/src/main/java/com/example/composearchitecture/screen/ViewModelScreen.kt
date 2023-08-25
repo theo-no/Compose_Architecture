@@ -19,7 +19,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -27,6 +28,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -37,29 +40,52 @@ import com.example.composearchitecture.ui.theme.ComposeArchitectureTheme
 // 단계 2: `ViewModel`을 상속받은 `ToDoViewModel`을 만듭니다.
 // 첫 단계에서는 내용을 비워두고 시작합시다.
 class ToDoViewModel : ViewModel(){
-    val text = mutableStateOf("")
-    val key = mutableStateOf(-1)
-    val toDoList = mutableStateListOf<ToDoData>()
+//    val text = mutableStateOf("")
+    private val _text = MutableLiveData("")
+    val text : LiveData<String> = _text
+    val setText : (String) -> Unit = {
+        _text.value = it
+    }
 
+    val key = mutableIntStateOf(-1)
+
+    //mutableStateListOf -> 추가 삭제 대입 -> UI가 갱신된다.(각 항목의 필드가 변경되면 갱신되지 않는다.)
+    //LiveData<List<X>>.observeAsState() -> List가 통채로 다른 list로 바뀌었을 때만 State가 갱신된다.
+//    val toDoList = mutableStateListOf<ToDoData>()
+    private val _rawToDoList = mutableListOf<ToDoData>()
+    private val _toDoList = MutableLiveData<List<ToDoData>>()
+    val toDoList : LiveData<List<ToDoData>> = _toDoList
+
+    //toList, toMutableList 다 리스트 복사 방법
     val onSubmit: (String) -> Unit = {
         val key = key.value + 1
-        toDoList.add(ToDoData(key, it))
-        text.value = ""
+        _rawToDoList.add(ToDoData(key, it))
+//        _toDoList.value = ArrayList(_rawToDoList)
+        _toDoList.value = _rawToDoList.toMutableList()
+        _text.value = ""
     }
 
     val onEdit: (Int, String) -> Unit = { key, newText ->
-        val i = toDoList.indexOfFirst { it.key == key }
-        toDoList[i] = toDoList[i].copy(text = newText)
+        val i = _rawToDoList.indexOfFirst { it.key == key }
+        _rawToDoList[i] = _rawToDoList[i].copy(text = newText)
+        _toDoList.value = ArrayList<ToDoData>(_rawToDoList)
+        _toDoList.value = mutableListOf<ToDoData>().also {
+            it.addAll(_rawToDoList) //이게 더 빠를 가능성이 크다.
+            // shallow copy를 염두해야 한다.
+        }
+        _toDoList.value = _rawToDoList.toMutableList()
     }
 
     val onToggle: (Int, Boolean) -> Unit = { key, checked ->
-        val i = toDoList.indexOfFirst { it.key == key }
-        toDoList[i] = toDoList[i].copy(done = checked)
+        val i = _rawToDoList.indexOfFirst { it.key == key }
+        _rawToDoList[i] = _rawToDoList[i].copy(done = checked)
+        _toDoList.value = ArrayList(_rawToDoList)
     }
 
     val onDelete: (Int) -> Unit = { key ->
-        val i = toDoList.indexOfFirst { it.key == key }
-        toDoList.removeAt(i)
+        val i = _rawToDoList.indexOfFirst { it.key == key }
+        _rawToDoList.removeAt(i)
+        _toDoList.value = ArrayList(_rawToDoList)
     }
 }
 
@@ -89,15 +115,14 @@ fun ViewModelScreen(
     Scaffold {
         Column {
             ToDoInput(
-                text = viewModel.text.value,
-                onTextChange = {
-                    viewModel.text.value = it
-                },
+                text = viewModel.text.observeAsState("").value,
+                onTextChange = viewModel.setText,
                 onSubmit = viewModel.onSubmit
             )
+            val items = viewModel.toDoList.observeAsState(emptyList()).value
             LazyColumn {
                 items(
-                    items = viewModel.toDoList,
+                    items = items,
                     key = { it.key }
                 ) { toDoData ->
                     ToDo(
