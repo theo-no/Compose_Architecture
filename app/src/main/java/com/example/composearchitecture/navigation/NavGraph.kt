@@ -7,6 +7,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.composearchitecture.screen.CompositionLocalScreen
 import com.example.composearchitecture.screen.MainScreen
+import com.example.composearchitecture.screen.Navigation2Screen
+import com.example.composearchitecture.screen.Navigation3Screen
+import com.example.composearchitecture.screen.NavigationScreen
 import com.example.composearchitecture.screen.ThemeScreen
 import com.example.composearchitecture.screen.ViewModelScreen
 
@@ -37,6 +40,30 @@ fun NavGraph(
             route = Screen.Theme.route
         ){
             ThemeScreen(navController)
+        }
+        composable(
+            route = Screen.Navigation.route
+        ){
+            NavigationScreen(navController)
+        }
+        composable(
+            route = Screen.Navigation2.route
+        ){
+            Navigation2Screen(navController)
+        }
+        composable(
+            route = Screen.Navigation3.route
+        ){
+            Navigation3Screen(navController = navController)
+        }
+        composable(
+            "navigation3ScreenWithArgument/{userId}"
+        ){
+            val userId = it.arguments?.getString("userId")
+            Navigation3Screen(
+                userId ?: "",
+                navController = navController
+            )
         }
     }
 } // End of setUpNavGraph

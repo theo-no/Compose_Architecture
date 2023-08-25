@@ -53,7 +53,8 @@ fun NavButton(
 val screenList = mutableListOf<ScreenInfo>(
     ScreenInfo("ViewModel", Screen.ViewModel.route),
     ScreenInfo("CompositionLocal", Screen.CompositionLocal.route),
-    ScreenInfo("Theme", Screen.Theme.route)
+    ScreenInfo("Theme", Screen.Theme.route),
+    ScreenInfo("Navigation", Screen.Navigation.route)
 )
 
 data class ScreenInfo(
