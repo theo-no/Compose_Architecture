@@ -16,7 +16,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.ui.Modifier
 import com.example.composearchitecture.navigation.NavGraph
 import com.example.composearchitecture.ui.theme.ComposeArchitectureTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
