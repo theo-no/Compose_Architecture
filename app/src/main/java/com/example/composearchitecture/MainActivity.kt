@@ -14,6 +14,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.composearchitecture.navigation.NavGraph
 import com.example.composearchitecture.ui.theme.ComposeArchitectureTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +26,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val navController: NavHostController = rememberNavController()
             ComposeArchitectureTheme {
                 // A surface container using the 'background' color from the theme
                 Scaffold(
@@ -37,7 +40,7 @@ class MainActivity : ComponentActivity() {
                             },
                             navigationIcon = {
                                 IconButton(onClick = {
-                                    onBackPressed()
+                                    navController.popBackStack()
                                 }) {
                                     Image(
                                         imageVector = Icons.Filled.ArrowBack,
@@ -50,7 +53,7 @@ class MainActivity : ComponentActivity() {
                     Surface(
                         modifier = Modifier.padding(it)
                     ) {
-                        NavGraph()
+                        NavGraph(navController)
                     }
                 }
             }

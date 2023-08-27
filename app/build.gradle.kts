@@ -101,4 +101,8 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
     implementation("com.squareup.okhttp3:okhttp:4.9.0")
 
+    //paging
+    implementation("androidx.paging:paging-common-ktx:3.1.1")
+    implementation("androidx.paging:paging-compose:1.0.0-alpha14")
+
 }

@@ -9,4 +9,6 @@ sealed class Screen(val route: String) {
     object Navigation2 : Screen(route = "navigation2_screen")
     object Navigation3 : Screen(route = "navigation3_screen")
     object Hilt : Screen(route = "hilt_screen")
+    object Poketmon : Screen(route = "poketmon_screen")
+    object PoketmonDetail : Screen(route = "Detail/{poketmonId}")
 }

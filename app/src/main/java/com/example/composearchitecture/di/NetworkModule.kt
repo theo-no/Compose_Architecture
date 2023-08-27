@@ -1,6 +1,7 @@
 package com.example.composearchitecture.di
 
 import com.example.composearchitecture.service.GithubService
+import com.example.composearchitecture.service.PoketmonService
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -18,10 +19,15 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
 
+//    @Singleton
+//    @Provides
+//    @Named("BASE_URL")
+//    fun BaseUrl() : String = "https://api.github.com"
+
     @Singleton
     @Provides
     @Named("BASE_URL")
-    fun BaseUrl() : String = "https://api.github.com"
+    fun BaseUrl() : String = "https://pokeapi.co/api/v2/"
 
     @Singleton
     @Provides
@@ -50,4 +56,11 @@ class NetworkModule {
     fun provideGithubService(
         retrofit: Retrofit
     ): GithubService = retrofit.create(GithubService::class.java)
+
+
+    @Singleton
+    @Provides
+    fun providePoketmonService(
+        retrofit: Retrofit
+    ): PoketmonService = retrofit.create(PoketmonService::class.java)
 }

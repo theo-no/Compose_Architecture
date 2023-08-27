@@ -55,7 +55,8 @@ val screenList = mutableListOf<ScreenInfo>(
     ScreenInfo("CompositionLocal", Screen.CompositionLocal.route),
     ScreenInfo("Theme", Screen.Theme.route),
     ScreenInfo("Navigation", Screen.Navigation.route),
-    ScreenInfo("Hilt", Screen.Hilt.route)
+    ScreenInfo("Hilt", Screen.Hilt.route),
+    ScreenInfo("Poketmon", Screen.Poketmon.route)
 )
 
 data class ScreenInfo(
