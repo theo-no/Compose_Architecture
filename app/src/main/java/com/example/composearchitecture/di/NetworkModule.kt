@@ -1,5 +1,6 @@
-package com.example.di
+package com.example.composearchitecture.di
 
+import com.example.composearchitecture.service.GithubService
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -44,9 +45,9 @@ class NetworkModule {
         .addConverterFactory(converterFactory)
         .build()
 
-//    @Singleton
-//    @Provides
-//    fun provideGithubService(
-//        retrofit: Retrofit
-//    ): GithubService = retrofit.create(GithubService::class.java)
+    @Singleton
+    @Provides
+    fun provideGithubService(
+        retrofit: Retrofit
+    ): GithubService = retrofit.create(GithubService::class.java)
 }

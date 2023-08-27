@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.composearchitecture.screen.CompositionLocalScreen
+import com.example.composearchitecture.screen.HiltScreen
 import com.example.composearchitecture.screen.MainScreen
 import com.example.composearchitecture.screen.Navigation2Screen
 import com.example.composearchitecture.screen.Navigation3Screen
@@ -64,6 +65,11 @@ fun NavGraph(
                 userId ?: "",
                 navController = navController
             )
+        }
+        composable(
+            route = Screen.Hilt.route
+        ){
+            HiltScreen(navController = navController)
         }
     }
 } // End of setUpNavGraph
